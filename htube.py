@@ -1,11 +1,6 @@
 import os
 import platform
-from pytube import YouTube
-from pytube import Playlist
-import youtube_dl
-from urllib.parse import urlparse
-os.system("clear")
-# os.system("mkdir videos_baixados")
+
 def System_Detector():
     oSsys = os.name
     oSplatform = platform.system()
@@ -16,6 +11,15 @@ def System_Detector():
         with open('/storage/'):
             os.system('mkdir videos_H-tube')
 System_Detector() 
+
+
+from pytube import YouTube
+from pytube import Playlist
+import youtube_dl
+from urllib.parse import urlparse
+os.system("clear")
+# os.system("mkdir videos_baixados")
+
 def choose_the_directorio():
     
 

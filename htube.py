@@ -8,10 +8,15 @@ def System_Detector():
     if oSsys and oSplatform and oSVersion == '#1 SMP PREEMPT Thu Aug 19 23:19:25 WIB 2021' and'4.9.193-perf-gc285628':
         print('OS = Termux-Android')
         os.system('termux-setup-storage')
-        with open('/storage/'):
-            os.system('mkdir videos_H-tube')
-System_Detector() 
+        with open('/storage/downloads/'):
+            os.system('mkdir videos_H-tube && cd /videos_H-tube/')
+        
+System_Detector()
 
+
+def Dependencies_check():
+    Dp_C = os.system('pip freeze | grep pytube')
+    pass
 
 from pytube import YouTube
 from pytube import Playlist
@@ -156,9 +161,6 @@ def menuResolutions(url):
         return 'Nada foi passsado'
 
 
-
-
 urlFilter(url)
 videoInformation()
-menuResolutions(url)
-
+menuResolutions(url) 

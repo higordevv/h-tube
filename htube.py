@@ -1,14 +1,26 @@
 import os
+import platform
 from pytube import YouTube
 from pytube import Playlist
 import youtube_dl
 from urllib.parse import urlparse
 os.system("clear")
 # os.system("mkdir videos_baixados")
-
-
+def System_Detector():
+    oSsys = os.name
+    oSplatform = platform.system()
+    oSVersion = platform.version()
+    if oSsys and oSplatform and oSVersion == '#1 SMP PREEMPT Thu Aug 19 23:19:25 WIB 2021' and'4.9.193-perf-gc285628':
+        print('OS = Termux-Android')
+        os.system('termux-setup-storage')
+        with open('/storage/'):
+            os.system('mkdir videos_H-tube')
+System_Detector() 
 def choose_the_directorio():
+    
+
     pass
+
 
 
 print('''⠀
@@ -138,6 +150,11 @@ def menuResolutions(url):
         return 'Dowload concluido!'
     else:
         return 'Nada foi passsado'
+
+
+
+
 urlFilter(url)
 videoInformation()
 menuResolutions(url)
+

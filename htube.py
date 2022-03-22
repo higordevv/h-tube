@@ -7,16 +7,17 @@ def System_Detector():
     oSVersion = platform.version()
     if oSsys and oSplatform and oSVersion == '#1 SMP PREEMPT Thu Aug 19 23:19:25 WIB 2021' and'4.9.193-perf-gc285628':
         print('OS = Termux-Android')
-        existenceDirectory = os.path.exists('/home/storage/')
+        existenceDirectory = os.path.exists('/data/data/com.termux/files/home/storage')
         if existenceDirectory == False:
             os.system('termux-setup-storage')
             Exception(PermissionError('Foi negado'))
             return
         elif existenceDirectory == True:
-            Alreadyexists = os.path.exists('/home/storage/downloads/videosBaixados')
+            Alreadyexists = os.path.exists('/data/data/com.termux/files/home/storage/downloads/videosBaixados')
             if Alreadyexists  == True:
                 pass
             else:
+                os.system('cd /data/data/com.termux/files/home/storage/downloads/')
                 os.system('mkdir videosBaixados')
 System_Detector()
 

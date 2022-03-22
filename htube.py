@@ -17,8 +17,7 @@ def System_Detector():
             if Alreadyexists  == True:
                 pass
             else:
-                os.system('cd /data/data/com.termux/files/home/storage/downloads/')
-                os.system('mkdir videosBaixados')
+                os.system('cd /data/data/com.termux/files/home/storage/downloads/ && mkdir videosBaixados')
 System_Detector()
 
 

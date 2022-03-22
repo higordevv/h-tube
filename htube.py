@@ -7,16 +7,26 @@ def System_Detector():
     oSVersion = platform.version()
     if oSsys and oSplatform and oSVersion == '#1 SMP PREEMPT Thu Aug 19 23:19:25 WIB 2021' and'4.9.193-perf-gc285628':
         print('OS = Termux-Android')
-        os.system('termux-setup-storage')
-        with open('/storage/downloads/'):
-            os.system('mkdir videos_H-tube && cd /videos_H-tube/')
-        
+        existenceDirectory = os.path.exists('/home/storage/')
+        if existenceDirectory == False:
+            os.system('termux-setup-storage')
+            Exception(PermissionError('Foi negado'))
+            return
+        elif existenceDirectory == True:
+            Alreadyexists = os.path.exists('/home/storage/downloads/videosBaixados')
+            if Alreadyexists  == True:
+                pass
+            else:
+                os.system('mkdir videosBaixados')
 System_Detector()
 
 
 def Dependencies_check():
     Dp_C = os.system('pip freeze | grep pytube')
-    pass
+    if 'pytube==' not in Dp_C:
+        pass
+
+    
 
 from pytube import YouTube
 from pytube import Playlist

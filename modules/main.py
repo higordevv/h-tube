@@ -1,4 +1,3 @@
-from distutils.log import error
 import sys
 from pytube import YouTube
 from colorama import Fore, Style
@@ -30,7 +29,6 @@ class Manager:
             else:
                 raise NameError(
                     print(f"[{Fore.RED}!{Style.RESET_ALL}] Url invalida!"))
-                return False
         except NameError:
             sys.exit(1)
 

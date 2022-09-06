@@ -5,11 +5,9 @@ from modules.main import Manager
 from modules.assets.ascii import ascii
 
 
+os.system("clear")
 try:
-    os.system("clear")
-
     ascii_logo = random.choice(ascii).format()
-
     print(f'${Fore.RED + ascii_logo + Style.RESET_ALL}')
 
     url = input('Digite a url do Vídeo: ')
@@ -22,11 +20,13 @@ try:
             " padrão: /htube_downloads")
         diretorio = './htube_downloads'
 
-    if __name__ == "__main__":
-        Manager(url, diretorio).isValidUrl()
-        Manager(url, diretorio).videoInformation()
-        Manager(url, diretorio).isPlaylist()
+    video = Manager(url, diretorio)
 
+    if __name__ == "__main__":
+        video.isValidUrl()
+        video.videoInformation()
+        video.isPlaylist()
+        video.isShort()
 
 except KeyboardInterrupt:
     os.system("clear")

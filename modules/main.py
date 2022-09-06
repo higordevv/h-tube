@@ -2,7 +2,7 @@ import sys
 from pytube import YouTube
 from colorama import Fore, Style
 from modules.funcs.menu import menu
-from modules.funcs.linkcheck import checkPlaylist
+from modules.funcs.linkcheck import checkPlaylist, checkShorts
 from modules.funcs.videoInformation import Informations
 import re
 
@@ -40,6 +40,14 @@ class Manager:
         link: str = self.url
         path: str = self.dirct
         if (checkPlaylist(link)):
+            menu(link, path)
+        else:
+            menu(link, path)
+
+    def isShort(self):
+        link: str = self.url
+        path: str = self.url
+        if (checkShorts(link)):
             menu(link, path)
         else:
             menu(link, path)

@@ -1,9 +1,6 @@
 # Htube(Youtube Downloader)
 <img src="https://img.shields.io/badge/-Linux-white?style=for-the-badge&logo=Linux&logoColor=red"> <img src="https://img.shields.io/badge/-Python-white?style=for-the-badge&logo=python&logoColor=red"> <img src="https://img.shields.io/badge/-Terminal-white?style=for-the-badge&logo=GNU%20Bash&logoColor=red">
 
-<br>Em desenvolvimento..<br>
-
-
 ## Screenshot:
 ![imagem](/.screenshot/a.png)
 

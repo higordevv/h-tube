@@ -7,16 +7,17 @@ from modules.funcs.download import Download
 
 
 def menu(url, path):
-
     print(f'''
-{Fore.YELLOW}===============
-| [1] 1080p   |
-| [2] 720p    |
-| [3] 480p    |
-| [4] 360p    |
-| [5] 240p    |
-| [6] 144p    |
-==============={Style.RESET_ALL}
+{Fore.YELLOW}
+==================
+  | [1] 1080p   |
+  | [2] 720p    |
+  | [3] 480p    |
+  | [4] 360p    |
+  | [5] 240p    |
+  | [6] 144p    |
+==================
+{Style.RESET_ALL}
 ''')
 
     if (checkPlaylist(url)):

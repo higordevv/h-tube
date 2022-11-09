@@ -1,12 +1,13 @@
 import re
 from colorama import Fore, Style
 
+
 class Manager:
-    # def _init_(self, url, dirct):
+    # def __init__(self, url, dirct):
     #     self.url: str = url
     #     self.dirct: str = dirct
 
-    def isValidUrl(url):
+    def isValidUrl(url, username):
         regex = ("((http|https)://)(www.youtube)?" +
                  "[a-zA-Z0-9@:%._\\+~#?&//=]" +
                  "{2,256}\\.[a-z]" +
@@ -16,10 +17,12 @@ class Manager:
         link = re.compile(regex)
 
         if re.search(link, url):  # type: ignore
-            print(f"[{Fore.GREEN}!{Style.RESET_ALL}] Url Valida!")
+            print(
+                f"User: {username} | [{Fore.GREEN}!{Style.RESET_ALL}] Url Valida!")
             return True
         else:
-            print(f"[{Fore.RED}!{Style.RESET_ALL}] Url Invalida!")
+            print(
+                f"User: {username} | [{Fore.RED}!{Style.RESET_ALL}] Url Invalida!")
             return False
 
 #     def videoInformation(self):

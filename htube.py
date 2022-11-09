@@ -1,33 +1,34 @@
-import os
-import random
 from colorama import Fore, Style
-from modules.main import Manager
-from modules.assets.ascii import ascii
+import telebot
+from modules.main import Manager  
 
 
-os.system("clear")
-try:
-    ascii_logo = random.choice(ascii).format()
-    print(f'${Fore.RED + ascii_logo + Style.RESET_ALL}')
+API_TOKEN = 'Arruma o teu'
 
-    url = input('Digite a url do Vídeo: ')
+bot = telebot.TeleBot(API_TOKEN)
 
-    diretorio = input('Diretorio para o Download: ')
 
-    if not diretorio:
-        print(
-            f"[{Fore.RED}!{Style.RESET_ALL}] Será armazenado no diretorio " +
-            " padrão: /htube_downloads")
-        diretorio = './htube_downloads'
+@bot.message_handler(commands=['help', 'start'])
+def send_welcome(message):
+    bot.reply_to(message, """Olá,sou o Blue Pen Bot!""")
 
-    video = Manager(url, diretorio)
 
-    if __name__ == "__main__":
-        video.isValidUrl()
-        video.videoInformation()
-        video.isPlaylist()
-        video.isShort()
+@bot.message_handler(commands=['baixarvideo'])
+def echo_message(message):
+    idChat = message.chat.id
+    url = message.text[12:]
+    print(url)
 
-except KeyboardInterrupt:
-    os.system("clear")
-    print("Good bye :)")
+    if (Manager.isValidUrl(url)):
+        bot.send_message(
+            idChat, "Olha,não me escreva daquele jeito, me mande" +
+            "n uma carta em q seja um pedaço de papel")
+        print(f"[{Fore.GREEN}!{Style.RESET_ALL}] Url Valida!")
+    else:
+        bot.send_message(
+            idChat, "Em pleno 2022 voce nao sabe o que é uma URL.")
+        print(f"[{Fore.RED}!{Style.RESET_ALL}] Url invalida!")
+
+
+print("Ligado")
+bot.infinity_polling()

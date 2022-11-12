@@ -26,8 +26,9 @@ class Manager:
             return False
 
     def videoInformation(url):
+    
         video = YouTube(url)
-        InfosVideo = []
+        InfosVideo = []  # list -> [titulo, duracao, data, imagem, visu]
 
         InfosVideo.append(video.title)
         InfosVideo.append(f"{video.length//60}min e {video.length%60}s")

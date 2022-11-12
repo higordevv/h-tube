@@ -3,7 +3,7 @@ import time
 from colorama import Fore, Style
 import telebot
 from telebot.types import InputFile
-#from modules.funcs.genButton import ButtonConstructor
+from modules.funcs.genButton import ButtonConstructor
 from modules.main import Manager
 
 
@@ -15,10 +15,6 @@ bot.set_my_commands(
     commands=[
         telebot.types.BotCommand("/baixarvideo", "/baixavideo <url>"),
     ],)
-
-#b = ButtonConstructor('UI', 'Di mais')
-#print(b)
-
 
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
@@ -41,10 +37,11 @@ def baixarVideo(message):
             idChat, "Video bacana")
         
         video = Manager.videoInformation(url)
-        # list -> [titulo, duracao, data, imagem, visu]
-        caption1 = f'*Nome:* {video[0]}\n*Data:* {video[2]}\n*Duração:* {video[1]}\n*Visus:* {video[4]}'
+        caption1 = f'*Nome:*\n{video[0]}\n*Data:* {video[2]}\n*Duração:* {video[1]}\n*Visus:* {video[4]}'
 
-        bot.send_photo(idChat, video[3], caption1).message_id
+        bot.send_photo(idChat, video[3], caption1, 
+                    parse_mode='markdown', 
+                    reply_markup=ButtonConstructor(['Ai', 'Evento1'],['Papai', "Evento2"],['Para', "Evento3"]))
     else:
         bot.send_message(
             idChat, "Em pleno 2022 voce nao sabe o que é uma URL.")

@@ -7,7 +7,7 @@ from modules.funcs.genButton import ButtonConstructor
 from modules.main import Manager
 
 
-API_TOKEN = ' '
+API_TOKEN = ''
 
 bot = telebot.TeleBot(API_TOKEN)
 
@@ -15,6 +15,7 @@ bot.set_my_commands(
     commands=[
         telebot.types.BotCommand("/baixarvideo", "/baixavideo <url>"),
     ],)
+
 
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
@@ -35,13 +36,13 @@ def baixarVideo(message):
     if (Manager.isValidUrl(url, message.from_user.username)):
         bot.send_message(
             idChat, "Video bacana")
-        
-        video = Manager.videoInformation(url)
-        caption1 = f'*Nome:*\n{video[0]}\n*Data:* {video[2]}\n*Duração:* {video[1]}\n*Visus:* {video[4]}'
 
-        bot.send_photo(idChat, video[3], caption1, 
-                    parse_mode='markdown', 
-                    reply_markup=ButtonConstructor(['Ai', 'Evento1'],['Papai', "Evento2"],['Para', "Evento3"]))
+        video = Manager.videoInformation(url)
+        caption1 = f'\n*Nome:*\n{video[0]}\n*Data:* {video[2]}\n*Duração:* {video[1]}\n*Visualizações:* {video[4]}\n\n⬇*Selecione a qualidade do video*⬇️'
+        
+        bot.send_photo(idChat, video[3], caption1,
+                       parse_mode='markdown',
+                       reply_markup=ButtonConstructor(['1080p', 'Evento1'], ['720p', "Evento2"], ['480p', "Evento3"]))
     else:
         bot.send_message(
             idChat, "Em pleno 2022 voce nao sabe o que é uma URL.")

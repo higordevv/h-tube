@@ -1,7 +1,7 @@
 import re
 from colorama import Fore, Style
 from pytube import YouTube
-
+from funcs.streamFilter import StreamFilter
 class Manager:
     # def __init__(self, url, dirct):
     #     self.url: str = url

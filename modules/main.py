@@ -1,6 +1,6 @@
 import re
 from colorama import Fore, Style
-
+from pytube import YouTube
 
 class Manager:
     # def __init__(self, url, dirct):
@@ -25,10 +25,18 @@ class Manager:
                 f"User: {username} | [{Fore.RED}!{Style.RESET_ALL}] Url Invalida!")
             return False
 
-#     def videoInformation(self):
-#         video = YouTube(self.url)
-#         Informations(video).printInfo()
-#
+    def videoInformation(url):
+        video = YouTube(url)
+        InfosVideo = []
+
+        InfosVideo.append(video.title)
+        InfosVideo.append(f"{video.length//60}min e {video.length%60}s")
+        InfosVideo.append(f"{video.publish_date.day}/{video.publish_date.month}/{video.publish_date.year}")
+        InfosVideo.append(video.thumbnail_url)
+        InfosVideo.append(str(video.views))
+        
+        return InfosVideo
+
 #     def isPlaylist(self):
 #         link: str = self.url
 #         path: str = self.dirct

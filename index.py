@@ -33,15 +33,17 @@ def send_welcome(message):
 def baixarVideo(message):
     idChat = message.chat.id
     url = message.text[12:]
+    
 
     if (Manager.isValidUrl(url, message.from_user.username)):
         bot.send_message(
             idChat, "Video bacana")
 
-        InfosVideo = Manager.videoInformation(url)
+        video = YouTube(url)
+        InfosVideo = Manager.videoInformation(video)
         caption1 = f'\n*Nome:*\n{InfosVideo[0]}\n*Data:* {InfosVideo[2]}\n*Duração:* {InfosVideo[1]}\n*Visualizações:* {InfosVideo[4]}\n\n⬇*Selecione a qualidade do video*⬇️'
 
-        StreamFilter(YouTube(url).streams)
+        StreamFilter(video.streams)
         bot.send_photo(idChat, InfosVideo[3], caption1, parse_mode='markdown', reply_markup=ButtonConstructor(parametrosButton))
     else:
         bot.send_message(

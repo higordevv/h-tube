@@ -1,7 +1,6 @@
 import re
 from colorama import Fore, Style
 from pytube import YouTube
-from funcs.streamFilter import StreamFilter
 class Manager:
     # def __init__(self, url, dirct):
     #     self.url: str = url
@@ -26,7 +25,6 @@ class Manager:
             return False
 
     def videoInformation(url):
-    
         video = YouTube(url)
         InfosVideo = []  # list -> [titulo, duracao, data, imagem, visu]
 

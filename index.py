@@ -5,7 +5,8 @@ import telebot
 from telebot.types import InputFile
 from modules.funcs.genButton import ButtonConstructor
 from modules.main import Manager
-
+from modules.funcs.streamFilter import StreamFilter, parametrosButton
+from pytube import YouTube
 
 API_TOKEN = ''
 
@@ -37,12 +38,11 @@ def baixarVideo(message):
         bot.send_message(
             idChat, "Video bacana")
 
-        video = Manager.videoInformation(url)
-        caption1 = f'\n*Nome:*\n{video[0]}\n*Data:* {video[2]}\n*Duração:* {video[1]}\n*Visualizações:* {video[4]}\n\n⬇*Selecione a qualidade do video*⬇️'
-        
-        bot.send_photo(idChat, video[3], caption1,
-                       parse_mode='markdown',
-                       reply_markup=ButtonConstructor(['1080p', 'Evento1'], ['720p', "Evento2"], ['480p', "Evento3"]))
+        InfosVideo = Manager.videoInformation(url)
+        caption1 = f'\n*Nome:*\n{InfosVideo[0]}\n*Data:* {InfosVideo[2]}\n*Duração:* {InfosVideo[1]}\n*Visualizações:* {InfosVideo[4]}\n\n⬇*Selecione a qualidade do video*⬇️'
+
+        StreamFilter(YouTube(url).streams)
+        bot.send_photo(idChat, InfosVideo[3], caption1, parse_mode='markdown', reply_markup=ButtonConstructor(parametrosButton))
     else:
         bot.send_message(
             idChat, "Em pleno 2022 voce nao sabe o que é uma URL.")

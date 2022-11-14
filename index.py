@@ -1,14 +1,17 @@
+import os
 import sys
 import time
-from colorama import Fore, Style
-import telebot
-from telebot.types import InputFile
-from modules.funcs.genButton import ButtonConstructor
-from modules.main import Manager
-from modules.funcs.streamFilter import StreamFilter, parametrosButton
-from pytube import YouTube
 
-API_TOKEN = ''
+import telebot
+from colorama import Fore, Style
+from pytube import YouTube
+from telebot.types import InputFile
+
+from modules.funcs.genButton import ButtonConstructor
+from modules.funcs.streamFilter import StreamFilter, parametrosButton
+from modules.main import Manager
+
+API_TOKEN = '2032060433:AAGsnnvZH8ATveJc1WhHZFIqaqot_to6RQ8'
 
 bot = telebot.TeleBot(API_TOKEN)
 
@@ -22,9 +25,9 @@ bot.set_my_commands(
 def send_welcome(message):
     idChat = message.chat.id
     bot.send_photo(
-        idChat, InputFile('./media/boas_vindas/boas_vindas.jpeg'), "Lorem ipsum fermentum ut diam egestas sapien")
+        idChat, InputFile('./media/boas_vindas/boas_vindas.jpeg'), "Eu simplesmente não existo")
 
-    # bot.send_audio(idChat, InputFile("./media/boas_vindas/manelGome.ogg"))
+    bot.send_audio(idChat, InputFile("./media/boas_vindas/manelGome.ogg"))
 
     print(f"[{Fore.GREEN}Conversa Iniciada{Style.RESET_ALL}]:\nUser: {message.from_user.username} | idChat: {idChat}")
 
@@ -37,7 +40,9 @@ def baixarVideo(message):
 
     if (Manager.isValidUrl(url, message.from_user.username)):
         bot.send_message(
-            idChat, "Video bacana")
+            idChat, "Um momento amigo(a) ✋")
+        bot.send_message(
+            idChat, "Aqui está 👇")
 
         video = YouTube(url)
         InfosVideo = Manager.videoInformation(video)
@@ -50,12 +55,12 @@ def baixarVideo(message):
             idChat, "Em pleno 2022 voce nao sabe o que é uma URL.")
 
 
+
 def startBot():
     print("status: [ ON ]")
     bot.infinity_polling()
     while 1:
         time.sleep(3)
-
 
 if __name__ == '__main__':
     try:

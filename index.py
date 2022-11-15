@@ -49,6 +49,13 @@ def baixarVideo(message):
         bot.send_message(
             idChat, "Em pleno 2022 voce nao sabe o que é uma URL.")
 
+# Quando um botao é clicado essa funcao executa
+@bot.callback_query_handler(lambda x: x)
+def baixar(retornoButton):
+    idChat = retornoButton.message.chat.id
+    retorno = retornoButton.data
+    bot.send_message(idChat, retorno)
+    bot.answer_callback_query(retornoButton.id)
 
 def startBot():
     print("status: [ ON ]")

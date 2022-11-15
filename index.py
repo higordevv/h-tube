@@ -56,6 +56,7 @@ def baixar(retornoButton):
     retorno = retornoButton.data
     bot.send_message(idChat, retorno)
     bot.answer_callback_query(retornoButton.id)
+    bot.edit_message_caption(caption=retornoButton.message.caption, chat_id=idChat ,message_id=retornoButton.message.id, reply_markup=None, parse_mode='markdown')
 
 def startBot():
     print("status: [ ON ]")

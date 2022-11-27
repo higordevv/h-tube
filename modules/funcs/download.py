@@ -1,37 +1,32 @@
 from pytube import YouTube
 
 
-def Download(choice: int, url, path: str):
+def Download(choice: str, url, idchat):
+    path = "./media/videos"
     pastVideo = YouTube(url)
-    if choice == '1':
-        urlInTray = pastVideo.streams.get_by_itag(137)
-        print("Baixando....")
-        urlInTray.download(path)
-        return 'Download concluido!'
-    if choice == '2':
-        urlInTray = pastVideo.streams.get_by_itag(22)
-        print("Baixando.....")
-        urlInTray.download(path)
-        return 'Dowload concluido!'
-    if choice == '3':
-        urlInTray = pastVideo.streams.get_by_itag(135)
-        print("Baixando.....")
-        urlInTray.download(path)
-        return 'Dowload concluido!'
-    if choice == '4':
-        urlInTray = pastVideo.streams.get_by_itag(18)
-        print('Baixando....')
-        urlInTray.download(path)
-        return 'Dowload concluido!'
-    if choice == '5':
-        urlInTray = pastVideo.streams.get_by_itag(133)
-        print('Baixando....')
-        urlInTray.download(path)
-        return 'Dowload concluido!'
-    if choice == '6':
-        urlInTray = pastVideo.streams.get_by_itag(160)
-        print('Baixando....')
-        urlInTray.download(path)
-        return 'Dowload concluido!'
-    else:
-        return 'Nada foi passado'
+    print(url)
+    match choice:
+        case "download(1080p)":
+            video = pastVideo.streams.get_by_resolution(
+                "1080p")
+            video.download(path)
+        case "download(720p)":
+            video = pastVideo.streams.get_by_resolution(
+                "720p")
+            video.download(path)
+        case "download(480p)":
+            video = pastVideo.streams.get_by_resolution(
+                "480p")
+            video.download(path)
+        case "download(360p)":
+            video = pastVideo.streams.get_by_resolution(
+                "360p")
+            video.download(path)
+        case "download(240p)":
+            video = pastVideo.streams.get_by_resolution(
+                "240p")
+            video.download(path)
+        case "download(144p)":
+            video = pastVideo.streams.get_by_resolution(
+                "144p")
+            video.download(path)

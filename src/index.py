@@ -10,7 +10,7 @@ from modules.funcs.genButton import ButtonConstructor
 from modules.funcs.streamFilter import StreamFilter, parametrosButton
 from modules.main import Manager
 
-API_TOKEN = os.environ['TOKEN_BOT']
+API_TOKEN = "2032060433:AAGsnnvZH8ATveJc1WhHZFIqaqot_to6RQ8"
 
 bot = telebot.TeleBot(API_TOKEN)
 

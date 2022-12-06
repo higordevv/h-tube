@@ -1,6 +1,7 @@
 import re
 from colorama import Fore, Style
 
+
 class Manager:
     # def __init__(self, url, dirct):
     #     self.url: str = url
@@ -25,28 +26,13 @@ class Manager:
             return False
 
     def videoInformation(video):
-        InfosVideo = []  # list -> [titulo, duracao, data, imagem, visu]
+        InfosVideo = []
 
         InfosVideo.append(video.title)
         InfosVideo.append(f"{video.length//60}min e {video.length%60}s")
-        InfosVideo.append(f"{video.publish_date.day}/{video.publish_date.month}/{video.publish_date.year}")
+        InfosVideo.append(
+            f"{video.publish_date.day}/{video.publish_date.month}/{video.publish_date.year}")
         InfosVideo.append(video.thumbnail_url)
         InfosVideo.append(str(video.views))
-        
-        return InfosVideo
 
-#     def isPlaylist(self):
-#         link: str = self.url
-#         path: str = self.dirct
-#         if (checkPlaylist(link)):
-#             menu(link, path)
-#         else:
-#             menu(link, path)
-#
-#     def isShort(self):
-#         link: str = self.url
-#         path: str = self.url
-#         if (checkShorts(link)):
-#             menu(link, path)
-#         else:
-#             menu(link, path)
+        return InfosVideo

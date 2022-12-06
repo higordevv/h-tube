@@ -6,11 +6,11 @@ def Download(choice: str, url, idchat):
     pastVideo = YouTube(url)
     print(url)
     match choice:
-        case "download(1080p)":
+        case "1080p":
             video = pastVideo.streams.get_by_resolution(
                 "1080p")
             video.download(path)
-        case "download(720p)":
+        case "720p":
             video = pastVideo.streams.get_by_resolution(
                 "720p")
             video.download(path)

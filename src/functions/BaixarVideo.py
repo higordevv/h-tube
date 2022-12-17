@@ -48,7 +48,14 @@ class BaixarVideo:
         InfosVideo.append(str(video.views))
 
         return InfosVideo
+<<<<<<< HEAD
+    def download(self): 
+        self.stream.download(output_path=self.buff er)
+    def send_video(self):
+        self.bot.send_video(chat_id=self.chat_id, video=self.buffer.getvalue())
+=======
 
+<<<<<<< HEAD
     def download(self):
         buff = self.buffer
         video = self.yt.stream_to_buffer(buff)
@@ -60,3 +67,8 @@ class BaixarVideo:
             # [ ]
         except:
             print("Estou sentindo minhas forças indo embora")
+=======
+    def download(stream):
+        print(f"Cheguei aqui sem self " + stream)
+>>>>>>> de0d04d4f2a5541b098e6e60a48af7dbdb24d2e0
+>>>>>>> b3f95d6e6a9e18482dc188d0aabf4dba4e192d48

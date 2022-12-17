@@ -1,13 +1,21 @@
 import re
+import pytube
+from io import BytesIO
 from colorama import Fore, Style
+import telebot
+
+# Responsabilidade Unica
+class BaixarVideo:
+    def __init__(self, youtube_url, bot_token,chat_id):
+        self.youtube_url:str = youtube_url
+        self.bot_token: str = bot_token
+        self.chat_id:str = chat_id
+        self.yt = pytube.YouTube(self.youtube_url)
+        self.bot = telebot.Telebot(self.bot_token)
+        self.stream = self.yt.streams.first()
 
 
-class Manager:
-    # def __init__(self, url, dirct):
-    #     self.url: str = url
-    #     self.dirct: str = dirct
-
-    def isValidUrl(url, username):
+    def isValidUrl(youtube_url, username):
         regex = ("((http|https)://)(www.youtube)?" +
                  "[a-zA-Z0-9@:%._\\+~#?&//=]" +
                  "{2,256}\\.[a-z]" +
@@ -36,3 +44,7 @@ class Manager:
         InfosVideo.append(str(video.views))
 
         return InfosVideo
+    def download(self): 
+        self.stream.download(output_path=self.buffer)
+    def send_video(self):
+        self.bot.send_video(chat_id=self.chat_id, video=self.buffer.getvalue())

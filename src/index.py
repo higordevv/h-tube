@@ -6,9 +6,9 @@ from colorama import Fore, Style
 from pytube import YouTube
 from telebot.types import InputFile
 
-from modules.funcs.genButton import ButtonConstructor
-from modules.funcs.streamFilter import StreamFilter, parametrosButton
-from modules.main import Manager
+from utils.genButton import ButtonConstructor
+from utils.streamFilter import StreamFilter, parametrosButton
+from functions.BaixarVideo import BaixarVideo
 
 API_TOKEN = "2032060433:AAGsnnvZH8ATveJc1WhHZFIqaqot_to6RQ8"
 
@@ -37,19 +37,22 @@ def baixarVideo(message):
     global url
     url = message.text[12:]
 
-    if (Manager.isValidUrl(url, message.from_user.username)):
+    if (BaixarVideo.isValidUrl(url, message.from_user.username)):
         bot.send_message(
             idChat, "Um momento amigo(a) ✋")
         bot.send_message(
             idChat, "Aqui está 👇")
 
         video = YouTube(url)
-        InfosVideo = Manager.videoInformation(video)
+        InfosVideo = BaixarVideo.videoInformation(video)
         caption1 = f'\n*Nome:*\n{InfosVideo[0]}\n*Data:* {InfosVideo[2]}\n*Duração:* {InfosVideo[1]}\n*Visualizações:* {InfosVideo[4]}\n\n⬇*Selecione a qualidade do video*⬇️'
 
-        StreamFilter(video.streams)
-        bot.send_photo(idChat, InfosVideo[3], caption1, parse_mode='markdown',
-                       reply_markup=ButtonConstructor(parametrosButton))
+        bot.send_message(idChat, caption1)
+        BaixarVideo(youtube_url= url, bot_token=API_TOKEN, chat_id=idChat)
+
+        # StreamFilter(video.streams)
+        # bot.send_photo(idChat, InfosVideo[3], caption1, parse_mode='markdown',
+        #                reply_markup=ButtonConstructor(parametrosButton))
     else:
         bot.send_message(
             idChat, "Em pleno 2022 voce nao sabe o que é uma URL.")

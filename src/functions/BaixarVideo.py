@@ -1,15 +1,10 @@
-import asyncio
-import os
-import tempfile
 import re
-import pytube
 from io import BytesIO
 from colorama import Fore, Style
-import telebot
+
+
 
 # Responsabilidade Unica
-
-
 class BaixarVideo:
     def __init__(self, bot, chatId, streams, retorno):
         self.chatId = chatId

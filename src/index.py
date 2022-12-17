@@ -1,14 +1,13 @@
-import time
-import sys
-
 import telebot
+from time import sleep
+from sys import exit
 from colorama import Fore, Style
 from pytube import YouTube
 from telebot.types import InputFile
-
 from utils.genButton import ButtonConstructor
 from utils.streamFilter import StreamFilter, parametrosButton
 from functions.BaixarVideo import BaixarVideo
+
 
 API_TOKEN = "2032060433:AAGsnnvZH8ATveJc1WhHZFIqaqot_to6RQ8"
 
@@ -26,7 +25,7 @@ def send_welcome(message):
     bot.send_photo(
         idChat, InputFile('./src/media/boas_vindas/boas_vindas.jpeg'), "Eu simplesmente não existo")
 
-    bot.send_audio(idChat, InputFile("./src/media/boas_vindas/manelGome.ogg"))
+    # bot.send_audio(idChat, InputFile("./src/media/boas_vindas/manelGome.ogg"))
 
     print(f"[{Fore.GREEN}Conversa Iniciada{Style.RESET_ALL}]:\nUser: {message.from_user.username} | idChat: {idChat}")
 
@@ -77,7 +76,7 @@ def startBot():
     print("status: [ ON ]")
     bot.infinity_polling()
     while 1:
-        time.sleep(3)
+        sleep(3)
 
 
 if __name__ == '__main__':
@@ -85,4 +84,4 @@ if __name__ == '__main__':
         startBot()
     except KeyboardInterrupt:
         print('\nBOT DESLIGADO\n')
-        sys.exit(0)
+        exit(0)

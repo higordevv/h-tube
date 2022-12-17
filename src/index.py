@@ -10,7 +10,7 @@ from utils.genButton import ButtonConstructor
 from utils.streamFilter import StreamFilter, parametrosButton
 from functions.BaixarVideo import BaixarVideo
 
-API_TOKEN = "5620702480:AAGfY7OFPPwyNjco4GkP57gjI5uex8PRG-Q"
+API_TOKEN = "2032060433:AAGsnnvZH8ATveJc1WhHZFIqaqot_to6RQ8"
 
 bot = telebot.TeleBot(API_TOKEN)
 
@@ -33,8 +33,9 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['baixarvideo'])
 def baixarVideo(message):
-    idChat = message.chat.id
     global url, streamsDoVideo
+
+    idChat = message.chat.id
     url = message.text[12:]
 
     if (BaixarVideo.isValidUrl(url, message.from_user.username)):
@@ -49,26 +50,27 @@ def baixarVideo(message):
 
         caption1 = f'\n*Nome:*\n{InfosVideo[0]}\n*Data:* {InfosVideo[2]}\n*Duração:* {InfosVideo[1]}\n*Visualizações:* {InfosVideo[4]}\n\n⬇*Selecione a qualidade do video*⬇️'
 
-        bot.send_photo(idChat, InfosVideo[3], caption1, parse_mode='markdown')
+        bot.send_photo(idChat, InfosVideo[3], caption1, parse_mode='markdown', reply_markup=ButtonConstructor(parametrosButton))
 
-        BaixarVideo(bot_token=API_TOKEN, chatId=idChat,
-                    youtube_url=url).download()
 
     else:
         bot.send_message(
             idChat, "Em pleno 2022 voce nao sabe o que é uma URL.")
 
 
+# Quando clicar no Botao, faça...
 @bot.callback_query_handler(lambda x: x)
 def baixar(retornoButton):
     idChat = retornoButton.message.chat.id
     retorno = retornoButton.data
-    bot.send_message(idChat, retorno)
+    bot.send_message(idChat, "Baixando...")
     bot.answer_callback_query(retornoButton.id)
     bot.edit_message_caption(caption=retornoButton.message.caption, chat_id=idChat,
                              message_id=retornoButton.message.id, reply_markup=None, parse_mode='markdown')
     
-    BaixarVideo.download(streamsDoVideo, retorno)
+    #BaixarVideo.download(streamsDoVideo, retorno)
+    BaixarVideo(bot=bot, chatId=idChat, streams=streamsDoVideo,
+                retorno=retorno).download()
 
 
 def startBot():

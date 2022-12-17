@@ -11,12 +11,11 @@ import telebot
 
 
 class BaixarVideo:
-    def __init__(self, bot_token, chatId, youtube_url):
-        self.youtube_url = youtube_url
-        self.bot_token: str = bot_token
+    def __init__(self, bot, chatId, streams, retorno):
         self.chatId = chatId
-        self.yt = pytube.YouTube(self.youtube_url).streams.first()
-        self.bot = telebot.TeleBot(self.bot_token)
+        self.streams = streams
+        self.bot = bot
+        self.retorno = retorno
         self.buffer = BytesIO()
 
     def isValidUrl(youtube_url, username):
@@ -51,9 +50,12 @@ class BaixarVideo:
 
     def download(self):
         buff = self.buffer
-        video = self.yt.stream_to_buffer(buff)
+        self.bot.send_message(self.chatId, "Buffer criado")
+        stream = self.streams.get_by_itag(int(self.retorno))
+        video = stream.stream_to_buffer(buff)
         try:
             # Tente enviar o video pegando o valor puro do buffer 
+            self.bot.send_message(self.chatId, "Enviando...")
             self.bot.send_video(chat_id=self.chatId, video=buff.getvalue())
             # Se suma
             buff.close()

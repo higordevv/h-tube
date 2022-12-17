@@ -1,6 +1,6 @@
-import sys
+
 import time
-import os
+
 import telebot
 from colorama import Fore, Style
 from pytube import YouTube
@@ -48,7 +48,7 @@ def baixarVideo(message):
         caption1 = f'\n*Nome:*\n{InfosVideo[0]}\n*Data:* {InfosVideo[2]}\n*Duração:* {InfosVideo[1]}\n*Visualizações:* {InfosVideo[4]}\n\n⬇*Selecione a qualidade do video*⬇️'
 
         bot.send_message(idChat, caption1)
-        BaixarVideo(youtube_url= url, bot_token=API_TOKEN, chat_id=idChat)
+        BaixarVideo(youtube_url= url, bot_token=API_TOKEN, chat_id=idChat).download()
 
         # StreamFilter(video.streams)
         # bot.send_photo(idChat, InfosVideo[3], caption1, parse_mode='markdown',

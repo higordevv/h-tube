@@ -1,5 +1,5 @@
 pytube
 youtube_dl
 colorama
-pyTelegramBotAPI
+pyTelegramBotAPI==4.8.0
 pyinject

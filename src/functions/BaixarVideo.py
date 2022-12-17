@@ -45,6 +45,6 @@ class BaixarVideo:
 
         return InfosVideo
     def download(self): 
-        self.stream.download(output_path=self.buffer)
+        self.stream.download(output_path=self.buff er)
     def send_video(self):
         self.bot.send_video(chat_id=self.chat_id, video=self.buffer.getvalue())

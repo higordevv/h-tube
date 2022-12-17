@@ -1,4 +1,6 @@
-import io
+import asyncio
+import os
+import tempfile
 import re
 import pytube
 from io import BytesIO
@@ -9,8 +11,10 @@ import telebot
 
 
 class BaixarVideo:
-    def __init__(self, bot_token):
+    def __init__(self, bot_token, chatId, youtube_url):
+        self.youtube_url = youtube_url
         self.bot_token: str = bot_token
+        self.chatId = chatId
         self.yt = pytube.YouTube(self.youtube_url).streams.first()
         self.bot = telebot.TeleBot(self.bot_token)
         self.buffer = BytesIO()
@@ -45,6 +49,14 @@ class BaixarVideo:
 
         return InfosVideo
 
-    def download(streams, qualidade):
-        stream = streams.get_by_itag(int(qualidade))
-        path = stream.download()
+    def download(self):
+        buff = self.buffer
+        video = self.yt.stream_to_buffer(buff)
+        try:
+            # Tente enviar o video pegando o valor puro do buffer 
+            self.bot.send_video(chat_id=self.chatId, video=buff.getvalue())
+            # Se suma
+            buff.close()
+            # [ ]
+        except:
+            print("Estou sentindo minhas forças indo embora")

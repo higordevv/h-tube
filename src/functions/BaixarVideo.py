@@ -44,13 +44,7 @@ class BaixarVideo:
         InfosVideo.append(str(video.views))
 
         return InfosVideo
-<<<<<<< HEAD
-    def download(self): 
-        self.stream.download(output_path=self.buff er)
-    def send_video(self):
-        self.bot.send_video(chat_id=self.chat_id, video=self.buffer.getvalue())
-=======
 
-    def download(stream):
-        print(f"Cheguei aqui sem self " + stream)
->>>>>>> de0d04d4f2a5541b098e6e60a48af7dbdb24d2e0
+    def download(streams, qualidade):
+        stream = streams.get_by_itag(int(qualidade))
+        path = stream.download()

@@ -1,4 +1,3 @@
-
 import time
 import sys
 
@@ -34,7 +33,7 @@ def send_welcome(message):
 @bot.message_handler(commands=['baixarvideo'])
 def baixarVideo(message):
     idChat = message.chat.id
-    global url
+    global url, streamsDoVideo
     url = message.text[12:]
 
     if (BaixarVideo.isValidUrl(url, message.from_user.username)):
@@ -45,12 +44,14 @@ def baixarVideo(message):
 
         video = YouTube(url)
         InfosVideo = BaixarVideo.videoInformation(video)
+        streamsDoVideo = StreamFilter(video.streams)
+
         caption1 = f'\n*Nome:*\n{InfosVideo[0]}\n*Data:* {InfosVideo[2]}\n*Duração:* {InfosVideo[1]}\n*Visualizações:* {InfosVideo[4]}\n\n⬇*Selecione a qualidade do video*⬇️'
 
         
-        bot.send_photo(idChat, InfosVideo[3], caption1, parse_mode='markdown')
+        bot.send_photo(idChat, InfosVideo[3], caption1, parse_mode='markdown', reply_markup=ButtonConstructor(parametrosButton))
 
-        BaixarVideo.download(stream=video.author)
+  
         
     else:
         bot.send_message(
@@ -65,6 +66,8 @@ def baixar(retornoButton):
     bot.answer_callback_query(retornoButton.id)
     bot.edit_message_caption(caption=retornoButton.message.caption, chat_id=idChat,
                              message_id=retornoButton.message.id, reply_markup=None, parse_mode='markdown')
+    
+    BaixarVideo.download(streamsDoVideo, retorno)
 
 
 def startBot():

@@ -10,7 +10,8 @@ def StreamFilter(stream: list):
         v = str(i)
         end = v.find('p', 48, 55)
         qualidade = v[48:end+1]
-        parametrosButton[qualidade] = qualidade
+        tag = v[15:18]
+        parametrosButton[qualidade] = tag
         
 
     return listaStreams

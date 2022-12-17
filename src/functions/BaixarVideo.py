@@ -24,7 +24,7 @@ class BaixarVideo:
 
         link = re.compile(regex)
 
-        if re.search(link, url):  # type: ignore
+        if re.search(link, youtube_url):  # type: ignore
             print(
                 f"User: {username} | [{Fore.GREEN}!{Style.RESET_ALL}] Url Valida!")
             return True

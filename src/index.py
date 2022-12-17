@@ -20,14 +20,13 @@ bot.set_my_commands(
         telebot.types.BotCommand("/baixarvideo", "/baixavideo <url>"),
     ],)
 
-
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
     idChat = message.chat.id
     bot.send_photo(
-        idChat, InputFile('./media/boas_vindas/boas_vindas.jpeg'), "Eu simplesmente não existo")
+        idChat, InputFile('./src/media/boas_vindas/boas_vindas.jpeg'), "Eu simplesmente não existo")
 
-    bot.send_audio(idChat, InputFile("./media/boas_vindas/manelGome.ogg"))
+    bot.send_audio(idChat, InputFile("./src/media/boas_vindas/manelGome.ogg"))
 
     print(f"[{Fore.GREEN}Conversa Iniciada{Style.RESET_ALL}]:\nUser: {message.from_user.username} | idChat: {idChat}")
 
@@ -48,12 +47,11 @@ def baixarVideo(message):
         InfosVideo = BaixarVideo.videoInformation(video)
         caption1 = f'\n*Nome:*\n{InfosVideo[0]}\n*Data:* {InfosVideo[2]}\n*Duração:* {InfosVideo[1]}\n*Visualizações:* {InfosVideo[4]}\n\n⬇*Selecione a qualidade do video*⬇️'
 
-        bot.send_message(idChat, caption1, parse_mode="Markdown")
-        BaixarVideo(youtube_url= url, bot_token=API_TOKEN, chat_id=idChat).download()
+        
+        bot.send_photo(idChat, InfosVideo[3], caption1, parse_mode='markdown')
 
-        # StreamFilter(video.streams)
-        # bot.send_photo(idChat, InfosVideo[3], caption1, parse_mode='markdown',
-        #                reply_markup=ButtonConstructor(parametrosButton))
+        BaixarVideo.download(stream=video.author)
+        
     else:
         bot.send_message(
             idChat, "Em pleno 2022 voce nao sabe o que é uma URL.")

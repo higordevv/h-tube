@@ -1,15 +1,18 @@
 import telebot
+import os
 from time import sleep
 from sys import exit
 from colorama import Fore, Style
 from pytube import YouTube
 from telebot.types import InputFile
+from dotenv import load_dotenv
+load_dotenv()
 from utils.genButton import ButtonConstructor
 from utils.streamFilter import StreamFilter, parametrosButton
 from functions.BaixarVideo import BaixarVideo
 
 
-API_TOKEN = "2032060433:AAGsnnvZH8ATveJc1WhHZFIqaqot_to6RQ8"
+API_TOKEN = os.getenv("API_TOKEN")
 
 bot = telebot.TeleBot(API_TOKEN)
 

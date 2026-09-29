@@ -8,5 +8,5 @@
 - [ ] Modo de uso ```python3 htube.py```
 
 ### setup
-<b>Modulos necessarios</b>: ```pytube``` e ```youtube_dl```<br>
+<b>Modulos necessarios</b>: ```yt-dlp``` e ```colorama``` (```ffmpeg``` opcional, para 480p+ com áudio)<br>
 <b>Instalação de Modulos</b>: ```pip3 install -r requirements.txt```<br>

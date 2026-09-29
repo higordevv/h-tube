@@ -33,6 +33,7 @@ https://youtu.be/...
 - `# Nome` vira pasta numerada pela ordem: `1 Sertanejo`, `2 Forro`
 - a linha de baixo vira subpasta (artista); os links abaixo dela vão pra ela
 - no vídeo as pastas são opcionais: pode colar só os links. Playlist também funciona
+- sem link? escreva `? o que pesquisar` e ele baixa o primeiro resultado do YouTube (bom pra trocar vídeo apagado)
 
 Resultado:
 ```
@@ -51,6 +52,8 @@ D:\Videos\01 Nome Do Video.mp4
 ### Nos dois
 - **Título curto:** tira `(Ao Vivo)`, `[HD]`, `| Canal`, `@canal`, `#tags`, emojis e CAIXA ALTA; corta em 60 letras
 - **Parar e continuar:** o botão vira **■ PARAR** durante o download. O que já foi baixado fica anotado em `baixados.txt`; clicar de novo continua de onde parou e tenta de novo os que falharam
+- **Segundo plano:** fechar a janela durante o download não para; ele continua escondido e a janela volta sozinha quando termina
+- `H-Tube.exe --baixar` abre e já começa a baixar no pen drive plugado
 - As listas ficam salvas em `%LOCALAPPDATA%\H-Tube`
 
 Vídeos com restrição de idade falham e são pulados.

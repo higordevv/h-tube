@@ -6,6 +6,7 @@ import shutil
 import string
 import sys
 import threading
+import time
 import unicodedata
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
@@ -143,12 +144,15 @@ def baixar(itens, raiz, fila, modo, altura, parar):
     for i, (genero, artista, url) in enumerate(itens, 1):
         nome = artista or genero or url
         fila.put(('progresso', i - 1, n, f'Baixando {nome}  ·  {i} de {n}'))
+        ultimo = [0.0]
 
         def baixando(d):
             if parar.is_set():
                 raise DownloadCancelled('parado pelo usuário')
-            if d['status'] != 'downloading':
+            # no máximo 4 por segundo: download rápido gera centenas e afoga a janela
+            if d['status'] != 'downloading' or time.monotonic() - ultimo[0] < 0.25:
                 return
+            ultimo[0] = time.monotonic()
             tamanho = d.get('total_bytes') or d.get('total_bytes_estimate')
             parte = d['downloaded_bytes'] / tamanho if tamanho else 0
             fila.put(('progresso', i - 1 + parte, n, f'Baixando {nome}  ·  {i} de {n}  ·  '
@@ -470,8 +474,11 @@ def main():
         log.config(state='disabled')
 
     def atualizar():
-        while not fila.empty():
-            msg = fila.get()
+        for _ in range(50):  # lote limitado: a janela nunca fica presa esvaziando a fila
+            try:
+                msg = fila.get_nowait()
+            except queue.Empty:
+                break
             if isinstance(msg, str):
                 escrever_log(msg)
             elif msg[0] == 'progresso':

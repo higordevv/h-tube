@@ -1,28 +1,23 @@
-# Htube(Youtube Downloader)
-<img src="https://img.shields.io/badge/-Linux-white?style=for-the-badge&logo=Linux&logoColor=red"> <img src="https://img.shields.io/badge/-Windows-white?style=for-the-badge&logo=windows&logoColor=red"> <img src="https://img.shields.io/badge/-Python-white?style=for-the-badge&logo=python&logoColor=red"> <img src="https://img.shields.io/badge/-Terminal-white?style=for-the-badge&logo=GNU%20Bash&logoColor=red">
+# H-Tube
+<img src="https://img.shields.io/badge/-Windows-white?style=for-the-badge&logo=windows&logoColor=red"> <img src="https://img.shields.io/badge/-Python-white?style=for-the-badge&logo=python&logoColor=red">
 
-Dois jeitos de usar:
+Baixa música (MP3) ou vídeo (MP4) do YouTube direto no pen drive, separado em pastas.
 
-- **`htube.py`**: terminal, baixa um vídeo ou playlist na resolução escolhida
-- **`musicas.py`**: janela, baixa uma lista de músicas em MP3 direto no pen drive, separadas por gênero e artista
+![H-Tube](/.screenshot/htube.png)
 
-### setup
-<b>Instalação de Modulos</b>: ```pip3 install -r requirements.txt```<br>
-<b>Modulos</b>: ```yt-dlp```, ```colorama``` e ```static-ffmpeg``` (baixa o ffmpeg sozinho se ele não estiver instalado)<br>
+## Usar
 
-## Terminal
-![imagem](/.screenshot/screenshot.png)
+Baixe o `H-Tube.exe` e abra. Na primeira vez ele baixa o ffmpeg (~80 MB) sozinho.
 
-```python3 htube.py```
+Ou pelo Python:
+```
+pip install -r requirements.txt
+python htube.py
+```
 
-Cole a url, escolha a pasta e a resolução. Acima de 360p precisa do ```ffmpeg``` pra juntar vídeo e áudio.
-
-## Músicas pro pen drive
-![musicas](/.screenshot/musicas.png)
-
-```python3 musicas.py```
-
-Escreva a lista, uma coisa por linha:
+1. Escolha **♫ MÚSICA** ou **▶ VÍDEO** no topo
+2. Escreva a lista, uma coisa por linha
+3. Escolha o destino (o pen drive plugado já vem escolhido) e clique em **▶ BAIXAR**
 
 ```
 # Sertanejo
@@ -35,23 +30,40 @@ Calcinha Preta
 https://youtu.be/...
 ```
 
-- `# Nome` vira pasta de gênero, numerada pela ordem: `1 Sertanejo`, `2 Forro`
-- a linha de baixo é o artista (subpasta); os links abaixo dele vão pra ela
-- link direto embaixo do gênero, sem artista, fica na pasta do gênero
+- `# Nome` vira pasta numerada pela ordem: `1 Sertanejo`, `2 Forro`
+- a linha de baixo vira subpasta (artista); os links abaixo dela vão pra ela
+- no vídeo as pastas são opcionais: pode colar só os links. Playlist também funciona
 
-Escolha o pen drive e clique em **GRAVAR**. Resultado:
-
+Resultado:
 ```
-E:\Musicas\1 Sertanejo\Bruno e Marrone\01 Bruno E Marrone - Só As Melhores Antigas.mp3
+D:\Musicas\1 Sertanejo\Bruno e Marrone\01 Bruno E Marrone - Só As Melhores Antigas.mp3
+D:\Videos\01 Nome Do Video.mp4
 ```
 
-- **Cabe no pen:** antes de baixar ele mede a duração de tudo e escolhe o maior bitrate MP3 que cabe no espaço livre (64 a 192 kbps). Se não couber nem em 64 kbps, avisa e não baixa
-- **Título curto:** tira `(Ao Vivo)`, `[HD]`, `| Canal`, `@canal`, `#tags`, emojis e CAIXA ALTA; corta em 60 letras
+### Música
+- **Cabe no pen:** mede a duração de tudo e escolhe o maior MP3 que cabe no espaço livre (64 a 192 kbps). Se não couber nem em 64 kbps, avisa e não baixa
 - **Tags:** grava título, artista e gênero no MP3 (é o que o som do carro mostra)
-- **Retoma:** anota o que já baixou em `Musicas\baixados.txt`; se parar no meio, é só clicar de novo
-- A lista fica salva em `musicas.txt` (fora do git)
+
+### Vídeo
+- Qualidade 1080p, 720p, 480p ou 360p (ou a melhor abaixo disso)
+- Prefere H.264 + AAC, que toca em TV, som de carro e celular antigo
+
+### Nos dois
+- **Título curto:** tira `(Ao Vivo)`, `[HD]`, `| Canal`, `@canal`, `#tags`, emojis e CAIXA ALTA; corta em 60 letras
+- **Parar e continuar:** o botão vira **■ PARAR** durante o download. O que já foi baixado fica anotado em `baixados.txt`; clicar de novo continua de onde parou e tenta de novo os que falharam
+- As listas ficam salvas em `%LOCALAPPDATA%\H-Tube`
 
 Vídeos com restrição de idade falham e são pulados.
 
-### teste
-```python3 test_musicas.py```
+## Desenvolvimento
+
+```
+python test_htube.py
+```
+
+Gerar o `.exe` (precisa de `pillow` e `pyinstaller`):
+```
+python build_ico.py
+python -m PyInstaller --onefile --windowed --name H-Tube --icon htube.ico htube.py
+```
+Sai em `dist\H-Tube.exe`.

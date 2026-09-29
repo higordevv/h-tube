@@ -1,4 +1,4 @@
-from musicas import ler_lista, escolher_bitrate, limpar_titulo
+from htube import ler_lista, escolher_bitrate, limpar_titulo, formato_video
 
 assert ler_lista('# Sertanejo\nhttps://s\nBruno\nhttps://a\n\n https://b \n# Brega\nRossi\nhttps://c') == [
     ('1 Sertanejo', '', 'https://s'), ('1 Sertanejo', 'Bruno', 'https://a'),
@@ -19,4 +19,5 @@ h = 3600
 assert escolher_bitrate(8e9, 70 * h) == 192      # 70h em 8 GB: sobra
 assert escolher_bitrate(8e9, 120 * h) == 128     # 120h: ~140 kbps -> 128
 assert escolher_bitrate(8e9, 400 * h) is None    # não cabe nem em 64
+assert formato_video(720).startswith('bv*[height<=720][vcodec^=avc1]')
 print('ok')

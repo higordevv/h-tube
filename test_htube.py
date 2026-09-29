@@ -4,6 +4,7 @@ assert ler_lista('# Sertanejo\nhttps://s\nBruno\nhttps://a\n\n https://b \n# Bre
     ('1 Sertanejo', '', 'https://s'), ('1 Sertanejo', 'Bruno', 'https://a'),
     ('1 Sertanejo', 'Bruno', 'https://b'), ('2 Brega', 'Rossi', 'https://c')]
 assert ler_lista('https://x') == [('', '', 'https://x')]
+assert ler_lista('Rossi\n? reginaldo rossi ao vivo') == [('', 'Rossi', 'ytsearch1:reginaldo rossi ao vivo')]
 
 assert limpar_titulo('CALCINHA PRETA - AO VIVO EM SALVADOR (DVD COMPLETO) [HD] | Oficial') == \
     'Calcinha Preta - Ao Vivo Em Salvador'

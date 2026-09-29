@@ -21,10 +21,10 @@ BITRATES = [64, 80, 96, 112, 128, 160, 192]
 RESOLUCOES = [1080, 720, 480, 360]
 MODOS = {
     'musica': {'lista': 'musicas.txt', 'pasta': 'Musicas',
-               'legenda': (('# gênero', 'genero'), ('artista', 'artista'), ('link', 'link')),
+               'legenda': (('# gênero', 'genero'), ('artista', 'artista'), ('link ou ? busca', 'link')),
                'dica': 'qualidade automática: o maior MP3 que couber no destino'},
     'video': {'lista': 'videos.txt', 'pasta': 'Videos',
-              'legenda': (('# pasta', 'genero'), ('subpasta', 'artista'), ('link', 'link')),
+              'legenda': (('# pasta', 'genero'), ('subpasta', 'artista'), ('link ou ? busca', 'link')),
               'dica': 'cole os links, um por linha · playlist também funciona · pastas são opcionais'},
 }
 # visor de som de carro antigo: preto quente + âmbar
@@ -41,6 +41,8 @@ def ler_lista(texto):
         linha = linha.strip()
         if linha.startswith('http'):
             itens.append((genero, artista, linha))
+        elif linha.startswith('?'):  # busca: pega o primeiro resultado do YouTube
+            itens.append((genero, artista, 'ytsearch1:' + linha.lstrip('?').strip()))
         elif linha.startswith('#'):
             n += 1
             genero, artista = f"{n} {linha.lstrip('#').strip()}", ''
@@ -159,10 +161,11 @@ def baixar(itens, raiz, fila, modo, altura, parar):
 
         pasta = os.path.join(destino, *[sanitize_filename(p) for p in (genero, artista) if p])
         faixa[pasta] = faixa.get(pasta, 0) + 1  # numera por pasta: ordem certa no som e sem nome repetido
+        indice = '' if url.startswith('ytsearch') else '%(playlist_index&-{}|)s'  # busca é "playlist" de 1
         opcoes = {
             # ponytail: playlist num link só leva o mesmo número + índice da playlist
             'outtmpl': os.path.join(pasta.replace('%', '%%'),
-                                    f'{faixa[pasta]:02d}%(playlist_index&-{{}}|)s %(title)s.%(ext)s'),
+                                    f'{faixa[pasta]:02d}{indice} %(title)s.%(ext)s'),
             'windowsfilenames': True,
             'ignoreerrors': True,
             'quiet': True,
@@ -297,6 +300,13 @@ def main():
             setattr(sys, nome, open(os.devnull, 'w'))
     if os.name == 'nt':  # ícone próprio na barra de tarefas em vez do Python
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('htube.app')
+        # um só por vez: dois baixando no mesmo pen se atropelam
+        k32 = ctypes.WinDLL('kernel32', use_last_error=True)
+        k32.CreateMutexW(None, False, 'Local\\htube.app')
+        if ctypes.get_last_error() == 183:  # ERROR_ALREADY_EXISTS
+            ctypes.windll.user32.MessageBoxW(0, 'O H-Tube já está aberto ou baixando em segundo plano.\n'
+                                                'Ele aparece sozinho quando terminar.', 'H-Tube', 0x40)
+            return
 
     root = tk.Tk()
     root.title('H-Tube')
@@ -342,7 +352,7 @@ def main():
             texto.tag_remove(tag, '1.0', 'end')
         for n, linha in enumerate(texto.get('1.0', 'end').splitlines(), 1):
             linha = linha.strip()
-            tag = 'link' if linha.startswith('http') else 'genero' if linha.startswith('#') else 'artista'
+            tag = 'link' if linha.startswith(('http', '?')) else 'genero' if linha.startswith('#') else 'artista'
             if linha:
                 texto.tag_add(tag, f'{n}.0', f'{n}.end')
         itens = ler_lista(texto.get('1.0', 'end'))
@@ -476,17 +486,29 @@ def main():
                 mudou_destino()
                 if len(msg) > 2 and os.name == 'nt':
                     os.startfile(msg[2])
+                if root.state() == 'withdrawn':  # estava em segundo plano: volta pra mostrar o resultado
+                    root.deiconify()
+                    root.lift()
         root.after(200, atualizar)
 
     destino.trace_add('write', mudou_destino)
     modo.trace_add('write', mudou_modo)
     botao.config(command=clique)
-    root.protocol('WM_DELETE_WINDOW', lambda: (salvar_arquivo(modo.get(), texto.get('1.0', 'end-1c')),
-                                               root.destroy()))
+
+    def fechar():
+        salvar_arquivo(modo.get(), texto.get('1.0', 'end-1c'))
+        if rodando[0]:  # continua baixando escondido e reaparece quando terminar
+            root.withdraw()
+        else:
+            root.destroy()
+
+    root.protocol('WM_DELETE_WINDOW', fechar)
     mudou_modo()
     pens = pen_drives()
     if pens:  # pen drive plugado: já vem escolhido
         destino.set(pens[0])
+    if '--baixar' in sys.argv and destino.get():  # atalho: abre e já começa
+        root.after(500, clique)
     if os.name == 'nt':
         try:
             barra_de_titulo_escura(root)

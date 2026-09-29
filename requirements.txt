@@ -1,3 +1,2 @@
-pytube
-youtube_dl
+yt-dlp
 colorama
